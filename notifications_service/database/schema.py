@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
-class DeviceTokenBase(BaseModel):
+class DeviceBase(BaseModel):
     user_id: int
     device_id: str # TODO: chequear el type

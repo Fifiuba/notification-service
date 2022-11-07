@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 
-class DeviceToken(Base):
+class Device(Base):
     __tablename__ = "device_tokens"
 
     token = Column("token", String, nullable=False, primary_key=True)
