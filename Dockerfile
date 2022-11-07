@@ -26,4 +26,4 @@ COPY ./notifications_service/ ./notifications_service
 EXPOSE 8000
 
 # Corro comando para levantar el servidor
-CMD poetry run uvicorn notifications_service.app:app --host 0.0.0.0
+CMD poetry run uvicorn notifications_service.main:app --host 0.0.0.0
