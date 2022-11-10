@@ -2,10 +2,10 @@ from . import models, schema
 from sqlalchemy.orm import Session
 
 class Notification_repository():
-    def register_device(self, device: schema.Device, db: Session):
+    def register_device(self, device: schema.DeviceBase, db: Session):
         
         db_device = models.Device(
-            user_id=device.user_id
+            user_id=device.user_id,
             device_id=device.device_id
         )
         db.add(db_device)
@@ -17,7 +17,7 @@ class Notification_repository():
         #pasar a un crud
         return db.query(models.Device).filter(models.Device.user_id == userId)
 
-    def send_push_notification(self,notification_parameters: Dict, userId: int, db: Session):
+    def send_push_notification(self,notification_parameters: dict, userId: int, db: Session):
         tokens = self.get_device_tokens_from_user(user_id, db)
         #TODO: investigar que devuelve el batch response
         batch_response = fmc.sendPush(

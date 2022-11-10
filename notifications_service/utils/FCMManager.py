@@ -11,7 +11,7 @@ class FCMManager:
         self.default_app = firebase_admin.initialize_app(self.cred)
 
 
-    def sendPush(self, deviceTokens, data=None, title=None, body=None)
+    def sendPush(self, deviceTokens, data=None, title=None, body=None):
         #TODO: cheqeuar si esta bien que sea multicast (decia que era para mandarle a varios tokens a la vez)
 
         message = messaging.MulticastMessage(
