@@ -9,8 +9,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - postgres-okteto:/var/lib/postgresql/data
+      - postgres-okteto-notification:/var/lib/postgresql/data
     
   notifications_service:
     build: .
@@ -29,5 +28,6 @@ services:
       - "9999:8080"
     depends_on:
       - postgres
+
 volumes:
-  postgres-okteto:
+  postgres-okteto-notification:

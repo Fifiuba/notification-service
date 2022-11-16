@@ -12,9 +12,10 @@ notification_router = APIRouter()
 notification_repository = NotificationRepository()
 notificationManager = NotificationManager()
 
-@notification_router.post("/new_user", status_code=status.HTTP_201_CREATED)
+@notification_router.post("/new_user",response_model=schema.DeviceBase,status_code=status.HTTP_201_CREATED)
 async def register_device(device: schema.DeviceBase, db: Session = Depends(database.get_db)):
         return notification_repository.register_device(device,db)
+
 
 
 @notification_router.post("/", status_code=status.HTTP_200_OK)
@@ -23,8 +24,8 @@ async def notify_user(notification: schema.NotificationRequest, db: Session = De
                 user_id = notification.user_id
                 token = notification_repository.get_device_token_from_user(userId, db)
                 # cambiar el parametro a notification entero
-                notificationManager.send_push_notification(device_token, notification.title,notification.body)
-                return result
+                res = notificationManager.send_push_notification(device_token, notification.title,notification.body)
+                return res.status 
         except (exceptions.NotificationException) as error:
                raise HTTPException(**error.__dict__)
         except (exceptions.UserNotFoundError) as error:
