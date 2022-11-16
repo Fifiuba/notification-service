@@ -1,7 +1,7 @@
 from . import models, schema, exceptions
 from sqlalchemy.orm import Session
 
-class Notification_repository():
+class NotificationRepository():
     def register_device(self, device: schema.DeviceBase, db: Session):
         
         db_device = models.Device(
@@ -16,6 +16,6 @@ class Notification_repository():
         user = db.query(models.Device).filter(models.Device.user_id == userId)
         if not user:
             raise exceptions.UserNotFoundError 
-        return user
+        return user.token
 
     

@@ -1,15 +1,15 @@
-from fastapi import APIRouter, status, HTTPException, Depends, Request
+from fastapi import APIRouter, status, HTTPException, Depends
 from sqlalchemy.orm import Session
 from typing import List, Union
-from notifications_service.database import schema, database
-from notifications_service.database.notification_repository import Notification_repository
-from notifications_service.model.notificationManager import NotificationManager
+from notifications_service.database import schema, database,exceptions
+from notifications_service.database.notification_repository import NotificationRepository
+from notifications_service.model.notification_manager import NotificationManager
 
 
 #from users_service.utils import authorization_handler, token_handler, firebase_handler
 
 notification_router = APIRouter()
-notification_repository = Notification_repository()
+notification_repository = NotificationRepository()
 notificationManager = NotificationManager()
 
 @notification_router.post("/new_user", status_code=status.HTTP_201_CREATED)
@@ -17,14 +17,15 @@ async def register_device(device: schema.DeviceBase, db: Session = Depends(datab
         return notification_repository.register_device(device,db)
 
 
-@notification_router.post("/", status_code=status.HTTP_201_CREATED)
-async def notify_user(req: Request, db: Session = Depends(database.get_db)):
+@notification_router.post("/", status_code=status.HTTP_200_OK)
+async def notify_user(notification: schema.NotificationRequest, db: Session = Depends(database.get_db)):
         try:
-               #user_id = json.loads(req.body)['passengerId']
-               #device_token = notification_repository.get_device_token_from_user(user_id, db)
-               #req.body
-               #device_token = 
-               notificationManager.send_push_notification(device_token, "Prueba de notificacion")
-               return result
-        except (exceptions.UserInfoException) as error:
+                user_id = notification.user_id
+                token = notification_repository.get_device_token_from_user(userId, db)
+                # cambiar el parametro a notification entero
+                notificationManager.send_push_notification(device_token, notification.title,notification.body)
+                return result
+        except (exceptions.NotificationException) as error:
+               raise HTTPException(**error.__dict__)
+        except (exceptions.UserNotFoundError) as error:
                raise HTTPException(**error.__dict__)
