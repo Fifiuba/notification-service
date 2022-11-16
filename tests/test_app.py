@@ -29,4 +29,15 @@ def test_create_new_user_with_device_token():
     assert data["user_id"] == 1
     assert data["token"] == device_token
 
+def test_send_notification():
+    response = client.post(
+        "/notification",
+        json={
+            "user_id": 1,
+            "title": 'Test 02',
+            "body": 'Esto es el body',
+            "data": '{"id": journe_id, "status":"accepted"}'
+        })
+    assert response.status_code == status.HTTP_200_OK
+
     

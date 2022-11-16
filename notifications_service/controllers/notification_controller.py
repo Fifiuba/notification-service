@@ -10,7 +10,7 @@ from notifications_service.model.notification_manager import NotificationManager
 
 notification_router = APIRouter()
 notification_repository = NotificationRepository()
-notificationManager = NotificationManager()
+notification_manager = NotificationManager()
 
 @notification_router.post("/new_user",response_model=schema.DeviceBase,status_code=status.HTTP_201_CREATED)
 async def register_device(device: schema.DeviceBase, db: Session = Depends(database.get_db)):
@@ -18,13 +18,13 @@ async def register_device(device: schema.DeviceBase, db: Session = Depends(datab
 
 
 
-@notification_router.post("/", status_code=status.HTTP_200_OK)
+@notification_router.post("", status_code=status.HTTP_200_OK)
 async def notify_user(notification: schema.NotificationRequest, db: Session = Depends(database.get_db)):
         try:
                 user_id = notification.user_id
-                token = notification_repository.get_device_token_from_user(userId, db)
+                token = notification_repository.get_device_token_from_user(user_id, db)
                 # cambiar el parametro a notification entero
-                res = notificationManager.send_push_notification(device_token, notification.title,notification.body)
+                res = notification_manager.send_push_message(token, notification.title,notification.body)
                 return res.status 
         except (exceptions.NotificationException) as error:
                raise HTTPException(**error.__dict__)
