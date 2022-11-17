@@ -1,3 +1,4 @@
+from typing import Optional,Dict
 from pydantic import BaseModel
 
 class DeviceBase(BaseModel):
@@ -11,4 +12,4 @@ class NotificationRequest(BaseModel):
     user_id: int 
     title: str
     body: str 
-    data: str
+    data: Optional[Dict]

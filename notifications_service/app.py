@@ -10,4 +10,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+def welcome():
+    return "Notification Service!"
+
 app.include_router(notification_controller.notification_router, prefix="/notification", tags=["Notification"])

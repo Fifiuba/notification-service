@@ -10,7 +10,7 @@ def init_database():
     postgresUser = str(os.environ.get('POSTGRES_USER'))
     postgresPassword = str(os.environ.get('POSTGRES_PASSWORD'))
     engine = create_engine(
-        "postgresql://postgres:postgres@postgres:5432", echo=True
+        "postgresql://postgres:alejo@localhost:5432/postgres", echo=True
     )
     print("postgresql://" + postgresUser + ":" + postgresPassword + "@postgres:5432/")
 

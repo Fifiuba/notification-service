@@ -5,9 +5,6 @@ from notifications_service.database import schema, database,exceptions
 from notifications_service.database.notification_repository import NotificationRepository
 from notifications_service.model.notification_manager import NotificationManager
 
-
-#from users_service.utils import authorization_handler, token_handler, firebase_handler
-
 notification_router = APIRouter()
 notification_repository = NotificationRepository()
 notification_manager = NotificationManager()
@@ -24,8 +21,9 @@ async def notify_user(notification: schema.NotificationRequest, db: Session = De
                 user_id = notification.user_id
                 token = notification_repository.get_device_token_from_user(user_id, db)
                 # cambiar el parametro a notification entero
-                res = notification_manager.send_push_message(token, notification.title,notification.body)
-                return res.status 
+                print(token)
+                res = notification_manager.send_push_message(token, notification.title,notification.body, notification.data)
+                return res 
         except (exceptions.NotificationException) as error:
                raise HTTPException(**error.__dict__)
         except (exceptions.UserNotFoundError) as error:

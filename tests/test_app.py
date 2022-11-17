@@ -5,6 +5,7 @@ from notifications_service.model.notification_manager import NotificationManager
 from tests import conftest
 
 
+
 session = conftest.init_database(app)
 notificationManager = NotificationManager()
 client = TestClient(app)
@@ -17,7 +18,7 @@ def test_receiving_send_notification_requests_it_is_sent_correctly():
     assert True
 
 def test_create_new_user_with_device_token():
-    device_token = "ExponentPushToken[UDA8pABqgFsu3ik3K9Sh8x]"
+    device_token = "ExponentPushToken[yEMHoKK54im4ig2FbyU1Rm]"
     response = client.post(
             "/notification/new_user",
             json={
@@ -34,9 +35,9 @@ def test_send_notification():
         "/notification",
         json={
             "user_id": 1,
-            "title": 'Test 02',
-            "body": 'Esto es el body',
-            "data": '{"id": journe_id, "status":"accepted"}'
+            "title": 'Viaje Aceptado!',
+            "body": 'Tu chofer esta en camino',
+            "data": {"id": "6376420e3afc8a78ea8caace", "status":"accepted"}
         })
     assert response.status_code == status.HTTP_200_OK
 
