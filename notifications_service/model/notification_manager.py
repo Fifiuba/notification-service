@@ -12,7 +12,7 @@ class NotificationManager:
 
     def send_push_message(self, token,title, body, data=None):
         try:
-            message = PushMessage(to=token,title=title,body=body,data=data,display_in_foreground=False)
+            message = PushMessage(to=token,title=title,body=body,data=data,priority='high',display_in_foreground=False)
             response = PushClient().publish(message)
             self.validate_response(response)
             return response.status

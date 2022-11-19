@@ -7,13 +7,9 @@ import os
 load_dotenv()
 
 def init_database():
-    postgresUser = str(os.environ.get('POSTGRES_USER'))
-    postgresPassword = str(os.environ.get('POSTGRES_PASSWORD'))
     engine = create_engine(
-        "postgresql://postgres:alejo@localhost:5432/postgres", echo=True
+        "postgresql://postgres:postgres@postgres:5432/postgres", echo=True
     )
-    print("postgresql://" + postgresUser + ":" + postgresPassword + "@postgres:5432/")
-
 
     global SessionLocal
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
