@@ -3,15 +3,11 @@ from sqlalchemy.orm import Session
 
 class NotificationRepository():
     def register_device(self, device: schema.DeviceBase, db: Session):
-        
-        db_device =  db.query(models.Device).filter(models.Device.user_id == device.user_id and models.Device.token == DeviceBase.token).first()
+        db_device =  db.query(models.Device).filter(models.Device.user_id == device.user_id).first()
         if not db_device:    
-            db_device = models.Device(
-                user_id=device.user_id,
-                token=device.token
-            )
-            db.add(db_device)
-            db.commit()
+            db_device = self.create(device, db)
+        else:
+            self.update(db_device, device.token, db)
         return db_device
     
     def get_device_token_from_user(self, userId: int, db: Session):
@@ -24,5 +20,18 @@ class NotificationRepository():
         devices = db.query(models.Device).all()
         return devices
 
+
+    def update(self,db_device,token,db):
+        setattr(db_device, "token", token)
+        db.commit()
+        db.refresh(db_device)
+
+    def create(self,device,db):
+        db_device = models.Device(
+            user_id=device.user_id,
+            token=device.token)
+        db.add(db_device)
+        db.commit()
+        return db_device
 
     

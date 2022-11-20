@@ -6,9 +6,9 @@ Base = declarative_base()
 
 
 class Device(Base):
-    __tablename__ = "device_tokens"
+    __tablename__ = "tokens"
 
-    token = Column("token", String, nullable=False, primary_key=True)
-    user_id = Column("user_id", Integer, nullable=False)
+    user_id = Column("user_id", Integer, nullable=False,primary_key=True)
+    token = Column("token", String, nullable=False)
     
     
