@@ -34,4 +34,10 @@ class NotificationRepository():
         db.commit()
         return db_device
 
+    def delete_all(self, db):
+        devices = db.query(models.Device).all()
+        for d in devices:
+            db.delete(d)
+            db.commit()
+    
     

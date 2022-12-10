@@ -34,3 +34,10 @@ async def notify_user(notification: schema.NotificationRequest, db: Session = De
                raise HTTPException(**error.__dict__)
         except (exceptions.UserNotFoundError) as error:
                raise HTTPException(**error.__dict__)
+
+@notification_router.post("/delete", status_code=status.HTTP_200_OK)
+async def delete_all(db: Session = Depends(database.get_db)):
+        notification_repository.delete_all(db)
+        devices = notification_repository.get_all(db)
+        return devices
+

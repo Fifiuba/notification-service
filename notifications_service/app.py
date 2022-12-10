@@ -13,6 +13,9 @@ app.add_middleware(
 
 @app.get("/")
 def welcome():
-    return "Notification Service!"
+    data = {'service': 'Notification service!',
+    'created_on':'2-11-2022',
+    'description':'Notificacion service is the responsable of sending push notifications to correct users, it uses Expo servers to do this job.'}
+    return data
 
 app.include_router(notification_controller.notification_router, prefix="/notification", tags=["Notification"])
