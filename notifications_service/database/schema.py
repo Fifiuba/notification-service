@@ -1,5 +1,15 @@
+from typing import Optional,Dict
 from pydantic import BaseModel
 
 class DeviceBase(BaseModel):
     user_id: int
-    device_id: str # TODO: chequear el type
+    token: str
+
+    class Config:
+        orm_mode = True
+
+class NotificationRequest(BaseModel):
+    user_id: int 
+    title: str
+    body: str 
+    data: Optional[Dict]
